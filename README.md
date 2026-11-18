@@ -7,6 +7,17 @@ querying a peptide dataset, and searching the published literature.
 <!-- Drag your screen recording into the GitHub README editor here. GitHub
      embeds .mov and .mp4 directly; no GIF conversion needed. -->
 
+## Demo: the agent derives a threshold that isn't in the code
+
+**"Which peptides in my dataset are strongly amphipathic?"**
+
+"Strongly" has no number attached, so the model calls `dataset_summary`
+first, finds μH spans 0.04–1.39 with a mean of 0.59, picks 0.9 as the top
+~8%, adds a length ≥ 11 rule because very short peptides score artificially
+high, and only then calls `query_dataset`. Nothing in the source picks 0.9,
+and the second call depends on the first call's output — which is what a
+fixed pipeline cannot do.     
+
 https://github.com/user-attachments/assets/0a7b9fbe-a34f-4f03-a076-469f0955ddae
 
 
