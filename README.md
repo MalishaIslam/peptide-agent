@@ -7,7 +7,7 @@ querying a peptide dataset, and searching the published literature.
 <!-- Drag your screen recording into the GitHub README editor here. GitHub
      embeds .mov and .mp4 directly; no GIF conversion needed. -->
 
-## Demo: the agent derives a threshold that isn't in the code
+## Demo:  The Agent derives a threshold that isn't in the code
 
 **"Which peptides in my dataset are strongly amphipathic?"**
 
@@ -18,17 +18,7 @@ high, and only then calls `query_dataset`. Nothing in the source picks 0.9,
 and the second call depends on the first call's output — which is what a
 fixed pipeline cannot do.     
 
-https://github.com/user-attachments/assets/0a7b9fbe-a34f-4f03-a076-469f0955ddae
-
-
-https://github.com/user-attachments/assets/b72d6273-d197-4b95-8c61-7565c2e0b397
-
-
-
-https://github.com/user-attachments/assets/b4ff499f-388c-4a08-af56-6c369de6803f
-
-
-
+https://github.com/user-attachments/assets/c4ad569d-41ef-48ca-aaad-ae039dfd6ddb
 
 Asked *"which peptides in my dataset are strongly amphipathic?"*, the agent
 calls `dataset_summary` to find the actual μH range (0.04–1.39, mean 0.59),
@@ -49,6 +39,24 @@ and the second call depends on the first call's output.
 > `has_d_residues` column, since the distinction matters biologically even
 > though it does not change these numbers. Add any structure-dependent
 > descriptor and `core.validate()` is the line that has to change.
+
+
+## One tool, one call
+
+**"What is the net charge of KRWWKWWRR?"** — a direct question with nothing
+to work out, so the model calls `compute_properties` once and reports the
+value, noting that the charge counts ionizable side chains only. The routing
+above is what the same system does when the question doesn't come with its
+own answer.
+
+https://github.com/user-attachments/assets/c3f204b7-3d3e-40f2-ab23-de97cefc5ffd
+
+
+
+
+
+
+
 
 > **Charge convention:** net charge counts **ionizable side chains only**. The
 > N- and C-terminal groups are excluded, so the number is comparable across
