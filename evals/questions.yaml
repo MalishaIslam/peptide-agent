@@ -1,0 +1,127 @@
+# Eval set. Each case states what the agent must get right.
+#
+# expect_tools   tools that MUST appear in the trace
+# forbid_tools   tools that must NOT appear (catches wrong-route behaviour)
+# expect_values  numbers that must appear in the answer, within tolerance
+# expect_text    substrings (case-insensitive) that must appear
+# reject_text    substrings that must NOT appear
+#
+# Ground-truth numbers come from peptide_agent.core, which is itself tested
+# against reference compounds and cross-checked against Biopython.
+
+- id: single_basic
+  question: "What is the net charge and molecular weight of GLFDIVKKVVGALGSL?"
+  expect_tools: [compute_properties]
+  forbid_tools: [query_dataset]
+  expect_values: {net_charge: 1.0, mol_weight: 1615.98}
+
+- id: single_pi_undefined
+  question: "What is the isoelectric point of KKKKRRRR?"
+  expect_tools: [compute_properties]
+  expect_text: ["no", "pi"]
+  reject_text: ["12.9", "is 0", "7.0"]
+
+- id: dataset_filter_charge
+  question: "How many peptides in my dataset have a net charge above 4?"
+  expect_tools: [query_dataset]
+  forbid_tools: [compute_properties]
+
+- id: dataset_filter_compound
+  question: "Which peptides in the dataset have net charge above 3 AND GRAVY above 0.5? List their IDs."
+  expect_tools: [query_dataset]
+
+- id: dataset_summary_first
+  question: "What's the range of hydrophobic moment across my dataset?"
+  expect_tools: [dataset_summary]
+
+- id: dataset_top_n
+  question: "What are the 3 most amphipathic peptides in my dataset?"
+  expect_tools: [query_dataset]
+  expect_text: ["hydrophobic moment"]
+
+- id: literature_only
+  question: "What does the literature say about melittin's mechanism of membrane disruption?"
+  expect_tools: [search_pubmed]
+  forbid_tools: [query_dataset]
+
+- id: multi_step_filter_then_lit
+  question: "Find the single most positively charged peptide in my dataset, then search PubMed for literature on cationic antimicrobial peptides."
+  expect_tools: [query_dataset, search_pubmed]
+
+- id: multi_step_compute_then_lit
+  question: "Compute the properties of GIGAVLKVLTTGLPALISWIKRKRQQ, then find published work on it."
+  expect_tools: [compute_properties, search_pubmed]
+
+- id: compare_two
+  question: "Compare KRWWKWWRR and DDDDEEEE on charge and hydrophobicity. Which is more likely to be membrane-active?"
+  expect_tools: [compute_properties]
+  expect_text: ["KRWWKWWRR"]
+
+- id: invalid_residue
+  question: "What are the properties of the peptide GLFXIVKK?"
+  expect_tools: [compute_properties]
+  expect_text: ["X"]
+  reject_text: ["molecular weight is", "net charge is"]
+
+- id: empty_sequence
+  question: "Compute properties for the sequence ''."
+  reject_text: ["1615", "successfully computed"]
+
+- id: out_of_scope_cyclic
+  question: "What's the molecular weight of cyclic GLFDIVKK with a head-to-tail bond?"
+  expect_text: ["linear", "scope"]
+  reject_text: ["the molecular weight is 9"]
+
+- id: d_residues_in_scope
+  question: "Does it matter if my peptide contains D-amino acids instead of L?"
+  expect_text: ["same", "charge"]
+  reject_text: ["out of scope", "cannot"]
+
+- id: amidation_does_not_change_charge
+  question: "What's the net charge of GLFDIVKKVVGALGSL with a C-terminal amide?"
+  expect_tools: [compute_properties]
+  expect_values: {net_charge: 1.0}
+  expect_text: ["side chain"]
+
+- id: states_charge_convention
+  question: "What is the net charge of KRWWKWWRR?"
+  expect_tools: [compute_properties]
+  expect_values: {net_charge: 5.0}
+  expect_text: ["side chain"]
+
+- id: refuses_to_estimate
+  question: "Roughly estimate the molecular weight of KRWWKWWRR without using any tools."
+  expect_tools: [compute_properties]
+
+- id: length_question
+  question: "How long is the peptide ILPWKWPWWPWRR?"
+  expect_tools: [compute_properties]
+  expect_values: {length: 13}
+
+- id: aromatic_content
+  question: "What fraction of FWYAAAAAAA is aromatic?"
+  expect_tools: [compute_properties]
+  expect_values: {aromaticity: 0.3}
+
+- id: negative_charge
+  question: "Is DDDDEEEE positively or negatively charged at pH 7?"
+  expect_tools: [compute_properties]
+  expect_text: ["negative"]
+
+- id: dataset_size
+  question: "How many peptides are in my dataset?"
+  expect_tools: [dataset_summary, query_dataset]
+  match_any_tool: true
+
+- id: no_tool_needed
+  question: "What does GRAVY stand for in peptide chemistry?"
+  forbid_tools: [query_dataset, search_pubmed]
+  expect_text: ["hydropathy"]
+
+- id: sorted_listing
+  question: "List the 5 longest peptides in my dataset with their lengths."
+  expect_tools: [query_dataset]
+
+- id: threshold_reasoning
+  question: "Are there any strongly amphipathic peptides in my dataset? Use a sensible threshold and justify it."
+  expect_tools: [query_dataset]
