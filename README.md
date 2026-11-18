@@ -10,6 +10,14 @@ querying a peptide dataset, and searching the published literature.
 https://github.com/user-attachments/assets/0a7b9fbe-a34f-4f03-a076-469f0955ddae
 
 
+https://github.com/user-attachments/assets/b72d6273-d197-4b95-8c61-7565c2e0b397
+
+
+
+https://github.com/user-attachments/assets/b4ff499f-388c-4a08-af56-6c369de6803f
+
+
+
 
 Asked *"which peptides in my dataset are strongly amphipathic?"*, the agent
 calls `dataset_summary` to find the actual μH range (0.04–1.39, mean 0.59),
