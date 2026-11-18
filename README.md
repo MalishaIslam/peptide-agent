@@ -9,7 +9,10 @@ querying a peptide dataset, and searching the published literature.
 
 ## Demo:  The Agent derives a threshold that isn't in the code
 
-**"Which peptides in my dataset are strongly amphipathic?"**
+
+https://github.com/user-attachments/assets/036b6225-81ed-4494-a3f5-abee525dcefd
+
+
 
 "Strongly" has no number attached, so the model calls `dataset_summary`
 first, finds μH spans 0.04–1.39 with a mean of 0.59, picks 0.9 as the top
@@ -17,8 +20,6 @@ first, finds μH spans 0.04–1.39 with a mean of 0.59, picks 0.9 as the top
 high, and only then calls `query_dataset`. Nothing in the source picks 0.9,
 and the second call depends on the first call's output — which is what a
 fixed pipeline cannot do.     
-
-https://github.com/user-attachments/assets/c4ad569d-41ef-48ca-aaad-ae039dfd6ddb
 
 Asked *"which peptides in my dataset are strongly amphipathic?"*, the agent
 calls `dataset_summary` to find the actual μH range (0.04–1.39, mean 0.59),
@@ -43,8 +44,11 @@ and the second call depends on the first call's output.
 
 ## One tool, one call
 
-**"What is the net charge of KRWWKWWRR?"** — a direct question with nothing
-to work out, so the model calls `compute_properties` once and reports the
+
+https://github.com/user-attachments/assets/eed30fb9-d798-4dbd-a8e4-8d9fd3701cbe
+
+
+The model calls `compute_properties` once and reports the
 value, noting that the charge counts ionizable side chains only. The routing
 above is what the same system does when the question doesn't come with its
 own answer.
