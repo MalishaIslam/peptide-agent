@@ -7,6 +7,10 @@ querying a peptide dataset, and searching the published literature.
 <!-- Drag your screen recording into the GitHub README editor here. GitHub
      embeds .mov and .mp4 directly; no GIF conversion needed. -->
 
+https://github.com/user-attachments/assets/0a7b9fbe-a34f-4f03-a076-469f0955ddae
+
+
+
 Asked *"which peptides in my dataset are strongly amphipathic?"*, the agent
 calls `dataset_summary` to find the actual μH range (0.04–1.39, mean 0.59),
 picks μH ≥ 0.9 as the top ~8%, adds a length ≥ 11 rule because very short
